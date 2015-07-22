@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.example.android.momintuition.SignIn" tools:ignore="MergeRootFrame">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="famousMe@mail.com"
+        android:ems="10"
+        android:id="@+id/user"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="100px"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="password"
+        android:ems="10"
+        android:id="@+id/password"
+        android:layout_below="@+id/user"
+        android:layout_alignLeft="@+id/user"
+        android:layout_alignStart="@+id/user"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/buttonSignin"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp" />
+
+
+</RelativeLayout>
