@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,7 +55,7 @@ public class ActivityChooser extends Activity {
 
 
 
-        // specify an adapter (see also next example)
+        // data set should come from AWS. next step to implement
         String[] myDataset = new String[4];
         myDataset[0] = "play";
         myDataset[1] = "eat";
@@ -66,7 +67,7 @@ public class ActivityChooser extends Activity {
 
 
 //TO INVESTIGATE
-        FetchCordinates fetchCordinates = new FetchCordinates();
+        FetchCoordinates fetchCordinates = new FetchCoordinates(getApplicationContext());
         fetchCordinates.execute();
 
     }
@@ -95,107 +96,6 @@ public class ActivityChooser extends Activity {
     }
 
 /////
-public class FetchCordinates extends AsyncTask<String, Void, String> {
-
-    public double lati = 0.0;
-    public double longi = 0.0;
-
-    public LocationManager mLocationManager;
-    public mLocationListener ll;
-
-    @Override
-    protected void onPreExecute() {
-        ll= new mLocationListener();
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        mLocationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, 0, 0,
-                ll);
-
-
-    }
-
-    @Override
-    protected void onCancelled(){
-        mLocationManager.removeUpdates(ll);
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        Log.i("LATITUDE  LONGITUDE : ", lati + " " + longi);
-        String[] params = new String[3];
-        params[0] = "52.11.50.74:9000/";
-        //params[1] = user;
-        //params[2] = password;
-        AsyncTask<String, Void, String> fm = new RequestTask().execute(params);
-
-
-        RecyclerView rv = new RecyclerView(getApplicationContext());
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(layoutManager);
-
-    }
-
-    @Override
-    protected String doInBackground(String... params) {
-        // TODO Auto-generated method stub
-
-    //    while (this.lati == 0.0) {
-
-    //      }
-        return null;
-    }
-
-    public class mLocationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location location) {
-
-            int lat = (int) location.getLatitude(); // * 1E6);
-            int log = (int) location.getLongitude(); // * 1E6);
-            int acc = (int) (location.getAccuracy());
-
-            String info = location.getProvider();
-            try {
-
-                //LocatorService.myLatitude=location.getLatitude();
-
-                //LocatorService.myLongitude=location.getLongitude();
-
-                lati = location.getLatitude();
-                longi = location.getLongitude();
-
-            } catch (Exception e) {
-                // progDailog.dismiss();
-                // Toast.makeText(getApplicationContext(),"Unable to get Location"
-                // , Toast.LENGTH_LONG).show();
-            }
-
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.i("onStatusChanged", "onStatusChanged");
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            Log.i("onProviderEnabled", "onProviderEnabled");
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            Log.i("OnProviderDisabled", "OnProviderDisabled");
-
-        }
-
-
-    }
-
-}
 
 }
 

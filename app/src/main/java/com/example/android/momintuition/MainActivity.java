@@ -17,6 +17,8 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.zip.Inflater;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -26,15 +28,48 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        MainActivity.context = getApplicationContext();
 
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
+        drawButtons();
+}
+
+
+        void drawButtons() {
+            final Button x = (Button) findViewById(R.id.buttonSignin);
+            final Button y = (Button) findViewById(R.id.buttonSignup);
+
+            View.OnClickListener l = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("BUTTON", "Signin");
+                    FetchCoordinates fetchCordinates = new FetchCoordinates(getApplicationContext());
+                    fetchCordinates.execute();
+
+                    //Intent i;
+                    //i = new Intent(getAppContext(), SignIn.class);
+                    //startActivity(i);
+
+                }
+            };
+
+
+            View.OnClickListener l1 = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("BUTTON", "Signup");
+                    Intent i;
+                    i = new Intent(getApplicationContext(), ActivityChooser.class);
+                    startActivity(i);
+
+                }
+            };
+            x.setOnClickListener(l);
+            y.setOnClickListener(l1);
+
         }
-    }
+
+
+
 
 
     public static Context getAppContext() {
@@ -63,15 +98,8 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+//////////////////
 
-        public PlaceholderFragment() {
-        }
-
-        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -82,9 +110,12 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     Log.i("BUTTON", "Signin" );
-                    Intent i;
-                    i = new Intent(getAppContext(), SignIn.class);
-                    startActivity(i);
+                    FetchCoordinates fetchCordinates = new FetchCoordinates(getApplicationContext());
+                    fetchCordinates.execute();
+
+                    //Intent i;
+                    //i = new Intent(getAppContext(), SignIn.class);
+                    //startActivity(i);
 
                 }
             };
@@ -106,5 +137,4 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-}
 

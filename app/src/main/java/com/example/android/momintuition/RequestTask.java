@@ -1,7 +1,9 @@
 package com.example.android.momintuition;
 
+import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -22,6 +24,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
     class RequestTask extends AsyncTask<String, Void, String> {
 
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... uri) {
             Log.i("this is my castle", "BURP");
