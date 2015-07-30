@@ -10,6 +10,7 @@ package com.example.android.momintuition;
         import android.graphics.Paint;
         import android.os.Build;
         import android.util.AttributeSet;
+        import android.util.Log;
         import android.util.TypedValue;
         import android.widget.ImageView;
 
@@ -61,13 +62,17 @@ public class CircleButton extends ImageView {
 
         if (pressed) {
             showPressedRing();
+            hidePressedRing();
+
+
         } else {
             hidePressedRing();
+            Log.i("do i ever get unpressed", "Unpressed");
         }
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas) {
         canvas.drawCircle(centerX, centerY, pressedRingRadius + animationProgress, focusPaint);
         canvas.drawCircle(centerX, centerY, outerRadius - pressedRingWidth, circlePaint);
         super.onDraw(canvas);
@@ -142,7 +147,12 @@ public class CircleButton extends ImageView {
         focusPaint.setStrokeWidth(pressedRingWidth);
         final int pressedAnimationTime = getResources().getInteger(ANIMATION_TIME_ID);
         pressedAnimator = ObjectAnimator.ofFloat(this, "animationProgress", 0f, 0f);
-        pressedAnimator.setDuration(pressedAnimationTime);
+
+        pressedAnimator.setDuration(1000);
+        pressedAnimator.setRepeatCount(5);
+        pressedAnimator.setRepeatCount(1);
+
+
     }
 
     private int getHighlightColor(int color, int amount) {
