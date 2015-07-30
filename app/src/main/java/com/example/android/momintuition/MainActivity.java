@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
         void drawButtons() {
             final Button x = (Button) findViewById(R.id.buttonSignin);
             final Button y = (Button) findViewById(R.id.buttonSignup);
+            final Button z = (Button) findViewById(R.id.buttonAnim);
 
             View.OnClickListener l = new View.OnClickListener() {
                 @Override
@@ -63,8 +64,22 @@ public class MainActivity extends ActionBarActivity {
 
                 }
             };
+
+
+            View.OnClickListener l2 = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("BUTTON", "Animate");
+                    Intent i;
+                    i = new Intent(getApplicationContext(), FirstPageAnimation.class);
+                    startActivity(i);
+
+                }
+            };
+
             x.setOnClickListener(l);
             y.setOnClickListener(l1);
+            z.setOnClickListener(l2);
 
         }
 
