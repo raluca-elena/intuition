@@ -1,7 +1,9 @@
 package com.example.android.momintuition;
 
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
@@ -10,6 +12,7 @@ import android.widget.Button;
 
 
 public class FirstPageAnimation extends ActionBarActivity {
+    CircularSeekBar circularSeekbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,22 @@ public class FirstPageAnimation extends ActionBarActivity {
         //Animation hyperspaceJump = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
         //hyperspaceJump.setRepeatCount(4);
         //btn.startAnimation(hyperspaceJump);
+
+        circularSeekbar = new CircularSeekBar(this);
+        circularSeekbar.setMaxProgress(100);
+        circularSeekbar.setProgress(0);
+        setContentView(circularSeekbar);
+        circularSeekbar.invalidate();
+
+
+
+        circularSeekbar.setSeekBarChangeListener(new CircularSeekBar.OnSeekChangeListener() {
+
+            @Override
+            public void onProgressChange(CircularSeekBar view, int newProgress) {
+                Log.d("Welcome", "Progress:" + view.getProgress() + "/" + view.getMaxProgress());
+            }
+        });
 
     }
 

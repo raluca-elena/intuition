@@ -18,5 +18,6 @@
     android:src="@drawable/ic_action_tick"
     app:cb_color="#99CC00"
     app:cb_pressedRingWidth="18dip"
-    />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
