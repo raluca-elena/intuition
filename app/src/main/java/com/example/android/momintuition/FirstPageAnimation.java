@@ -1,11 +1,14 @@
 package com.example.android.momintuition;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -13,23 +16,25 @@ import android.widget.Button;
 
 public class FirstPageAnimation extends ActionBarActivity {
     CircularSeekBar circularSeekbar;
+    CircularSeekBar circularSeekbar2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_page_animation);
-        //Button btn = (Button) findViewById(R.id.animatedButton);
-        //Animation hyperspaceJump = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
-        //hyperspaceJump.setRepeatCount(4);
-        //btn.startAnimation(hyperspaceJump);
+        ViewGroup v = (ViewGroup)findViewById(R.id.abc);
+
 
         circularSeekbar = new CircularSeekBar(this);
+        circularSeekbar.adjustRadius(6, 2);
+
         circularSeekbar.setMaxProgress(100);
         circularSeekbar.setProgress(0);
-        setContentView(circularSeekbar);
-        circularSeekbar.invalidate();
-
-
+        addContentView(circularSeekbar, v.getLayoutParams());
+        //circularSeekbar.invalidate();
+        //circularSeekbar.setProgress(20);
+        circularSeekbar.setAngle(120);
 
         circularSeekbar.setSeekBarChangeListener(new CircularSeekBar.OnSeekChangeListener() {
 
@@ -38,6 +43,22 @@ public class FirstPageAnimation extends ActionBarActivity {
                 Log.d("Welcome", "Progress:" + view.getProgress() + "/" + view.getMaxProgress());
             }
         });
+
+
+        circularSeekbar2 = new CircularSeekBar(this);
+        circularSeekbar2.setMaxProgress(100);
+        circularSeekbar2.setProgress(0);
+        addContentView(circularSeekbar2, v.getLayoutParams());
+        circularSeekbar2.invalidate();
+
+        circularSeekbar2.setSeekBarChangeListener(new CircularSeekBar.OnSeekChangeListener() {
+
+            @Override
+            public void onProgressChange(CircularSeekBar view, int newProgress) {
+                Log.d("Welcome1", "Progress:" + view.getProgress() + "/" + view.getMaxProgress());
+            }
+        });
+
 
     }
 

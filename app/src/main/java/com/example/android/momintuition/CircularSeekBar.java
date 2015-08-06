@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -50,6 +51,12 @@ public class CircularSeekBar extends View {
 	/** The height of the view */
 	private int height;
 
+	private static boolean alreadyDone = false;
+
+
+
+	private int dividew = 1;
+	private int divideh = 1;
 	/** The maximum progress amount */
 	private int maxProgress = 100;
 
@@ -107,6 +114,8 @@ public class CircularSeekBar extends View {
 	 */
 	private float markPointY;
 
+	public Canvas c = null;
+
 	/**
 	 * The adjustment factor. This adds an adjustment of the specified size to
 	 * both sides of the progress bar, allowing touch events to be processed
@@ -130,6 +139,13 @@ public class CircularSeekBar extends View {
 	private boolean CALLED_FROM_ANGLE = false;
 
 	private boolean SHOW_SEEKBAR = true;
+
+	public void adjustRadius( int w, int h){
+
+		dividew = w;
+		divideh = h;
+
+	}
 
 	/** The rectangle containing our circles and arcs. */
 	private RectF rect = new RectF();
@@ -208,6 +224,8 @@ public class CircularSeekBar extends View {
 	 */
 	public CircularSeekBar(Context context) {
 		super(context);
+		alreadyDone = true;
+
 		mContext = context;
 		initDrawable();
 	}
@@ -229,7 +247,7 @@ public class CircularSeekBar extends View {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+		Log.i("Circle draw", "CIRCLE");
 		width = getWidth(); // Get View Width
 		height = getHeight();// Get View Height
 
@@ -242,7 +260,7 @@ public class CircularSeekBar extends View {
 		cy = height / 2; // Center Y for circle
 
 		//aici se seteaza raza cercului
-		outerRadius = size / 2; // Radius of the outer circle
+		outerRadius = (size / 2)/Math.max(divideh, dividew); // Radius of the outer circle
 
 		innerRadius = outerRadius - barWidth; // Radius of the inner circle
 
@@ -267,13 +285,17 @@ public class CircularSeekBar extends View {
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
+//if (!alreadyDone){
+	//Log.i("NOT already done ", "drawing background");
+	//p=new Paint();
+	//	Bitmap b=BitmapFactory.decodeResource(getResources(), R.drawable.teddy);
+	//p.setColor(Color.RED);
 
-		p=new Paint();
-		Bitmap b=BitmapFactory.decodeResource(getResources(), R.drawable.teddy);
-		p.setColor(Color.RED);
-		canvas.drawBitmap(b, 0, 0, p);
+
+	//canvas.drawBitmap(b, 0, 0, p);//}
 		//canvas.drawCircle(cx, cy, outerRadius, circleRing);
 		//aloha
+		canvas.drawColor(Color.TRANSPARENT);
 		canvas.drawArc(rect, startAngle, angle, false, innerColor);
 
 		//aloha
@@ -288,6 +310,7 @@ public class CircularSeekBar extends View {
 			drawMarkerAtProgress(canvas);
 		}
 		super.onDraw(canvas);
+		//c = canvas;
 	}
 
 	/**
@@ -299,8 +322,12 @@ public class CircularSeekBar extends View {
 	public void drawMarkerAtProgress(Canvas canvas) {
 		if (IS_PRESSED) {
 			canvas.drawBitmap(progressMarkPressed, dx, dy, null);
+			Log.i("draw parker  dx", dx + "");
+			Log.i("draw marker  dy" , dy + "");
 		} else {
 			canvas.drawBitmap(progressMark, dx, dy, null);
+			//canvas.drawBitmap(progressMarkPressed, dx, dy, null);
+
 		}
 	}
 
@@ -459,6 +486,8 @@ public class CircularSeekBar extends View {
 				int newPercent = (this.progress * 100) / this.maxProgress;
 				int newAngle = (newPercent * 360) / 100 ;
 				this.setAngle(newAngle);
+				//aloha
+
 				this.setProgressPercent(newPercent);
 			}
 			mListener.onProgressChange(this, this.getProgress());
@@ -516,6 +545,8 @@ public class CircularSeekBar extends View {
 		//circleColor.setColor(Color.TRANSPARENT);
 	}
 
+
+	//aici dar fara event
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -525,6 +556,10 @@ public class CircularSeekBar extends View {
 	public boolean onTouchEvent(MotionEvent event) {
 		float x = event.getX();
 		float y = event.getY();
+
+		Log.i("--moved x", x + "");
+		Log.i("--moved y", y + "");
+
 		boolean up = false;
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
@@ -560,6 +595,7 @@ public class CircularSeekBar extends View {
 			markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
 
 			float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
+			Log.i("---degrees", degrees+"");
 			// and to make it count 0-360
 			if (degrees < 0) {
 				degrees += 2 * Math.PI;
