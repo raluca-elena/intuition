@@ -69,9 +69,14 @@ public class CircularSeekBar extends View {
 	/** The radius of the inner circle */
 	private float innerRadius;
 
+	private float innerRadius1;
+
 	/** The radius of the outer circle */
 	private float outerRadius;
+	private float outerRadius1;
 
+
+	///no need fo other center as all we'll have the same center
 	/** The circle's center X coordinate */
 	private float cx;
 
@@ -80,41 +85,50 @@ public class CircularSeekBar extends View {
 
 	/** The left bound for the circle RectF */
 	private float left;
+	private float left1;
 
 	/** The right bound for the circle RectF */
 	private float right;
+	private float right1;
 
 	/** The top bound for the circle RectF */
 	private float top;
+    private float top1;
 
 	/** The bottom bound for the circle RectF */
 	private float bottom;
+    private float bottom1;
 
 	/** The X coordinate for the top left corner of the marking drawable */
 	private float dx;
+	private float dx1;
 
 	/** The Y coordinate for the top left corner of the marking drawable */
 	private float dy;
+	private float dy1;
 
 	/** The X coordinate for 12 O'Clock */
 	private float startPointX;
+	private float startPointX1;
 
 	/** The Y coordinate for 12 O'Clock */
 	private float startPointY;
+	private float startPointY1;
 
 	/**
 	 * The X coordinate for the current position of the marker, pre adjustment
 	 * to center
 	 */
 	private float markPointX;
+	private float markPointX1;
 
 	/**
 	 * The Y coordinate for the current position of the marker, pre adjustment
 	 * to center
 	 */
 	private float markPointY;
+	private float markPointY1;
 
-	public Canvas c = null;
 
 	/**
 	 * The adjustment factor. This adds an adjustment of the specified size to
@@ -149,6 +163,7 @@ public class CircularSeekBar extends View {
 
 	/** The rectangle containing our circles and arcs. */
 	private RectF rect = new RectF();
+	private RectF rect1 = new RectF();
 
 	{
 		mListener = new OnSeekChangeListener() {
@@ -260,23 +275,37 @@ public class CircularSeekBar extends View {
 		cy = height / 2; // Center Y for circle
 
 		//aici se seteaza raza cercului
-		outerRadius = (size / 2)/Math.max(divideh, dividew); // Radius of the outer circle
+		outerRadius1 = (size / 2)/Math.max(divideh, dividew); // Radius of the outer circle
+		outerRadius = size / 2;
 
 		innerRadius = outerRadius - barWidth; // Radius of the inner circle
+        innerRadius1 = outerRadius1 - barWidth;
 
 		left = cx - outerRadius; // Calculate left bound of our rect
+		left1 = cx - outerRadius1;
+
 		right = cx + outerRadius;// Calculate right bound of our rect
+		right1 = cx + outerRadius1;
+
 		top = cy - outerRadius;// Calculate top bound of our rect
+		top1 = cy - outerRadius1;
+
 		bottom = cy + outerRadius;// Calculate bottom bound of our rect
+		bottom1 = cy + outerRadius1;
 
 		startPointX = cx; // 12 O'clock X coordinate
+
 		startPointY = cy - outerRadius;// 12 O'clock Y coordinate
+		startPointY1 = cy - outerRadius1;
+
 		markPointX = startPointX;// Initial locatino of the marker X coordinate
+		markPointX1 = startPointX1;
 		markPointY = startPointY;// Initial locatino of the marker Y coordinate
+		markPointY1 = startPointY1;
 
 		rect.set(left, top, right, bottom); // assign size to rect
+		rect1.set(left1, top1, right1, bottom1);
 	}
-	Paint p;
 
 	/*
 	 * (non-Javadoc)
@@ -285,11 +314,6 @@ public class CircularSeekBar extends View {
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
-//if (!alreadyDone){
-	//Log.i("NOT already done ", "drawing background");
-	//p=new Paint();
-	//	Bitmap b=BitmapFactory.decodeResource(getResources(), R.drawable.teddy);
-	//p.setColor(Color.RED);
 
 
 	//canvas.drawBitmap(b, 0, 0, p);//}
@@ -297,6 +321,7 @@ public class CircularSeekBar extends View {
 		//aloha
 		canvas.drawColor(Color.TRANSPARENT);
 		canvas.drawArc(rect, startAngle, angle, false, innerColor);
+		canvas.drawArc(rect1, startAngle, angle, false, innerColor);
 
 		//aloha
 		//canvas.drawCircle(cx, cy, innerRadius, innerColor);
@@ -592,7 +617,10 @@ public class CircularSeekBar extends View {
 			IS_PRESSED = true;
 
 			markPointX = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
-			markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+			markPointX1 = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+			markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
+			markPointY1 = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+
 
 			float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
 			Log.i("---degrees", degrees+"");

@@ -46,22 +46,6 @@ public class FirstPageAnimation extends ActionBarActivity {
             }
         });
 
-
-        circularSeekbar2 = new CircularSeekBar(this);
-        circularSeekbar2.setMaxProgress(100);
-        circularSeekbar2.setProgress(0);
-        addContentView(circularSeekbar2, v.getLayoutParams());
-        circularSeekbar2.invalidate();
-
-        circularSeekbar2.setSeekBarChangeListener(new CircularSeekBar.OnSeekChangeListener() {
-
-            @Override
-            public void onProgressChange(CircularSeekBar view, int newProgress) {
-                Log.d("Welcome1", "Progress:" + view.getProgress() + "/" + view.getMaxProgress());
-                circularSeekbar.setProgress(circularSeekbar.getProgressPercent() + 10);
-            }
-        });
-
         circularSeekbar.setProgress(circularSeekbar.getProgressPercent() + 10);
 
 
