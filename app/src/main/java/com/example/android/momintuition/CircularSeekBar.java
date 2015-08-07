@@ -294,12 +294,14 @@ public class CircularSeekBar extends View {
 		bottom1 = cy + outerRadius1;
 
 		startPointX = cx; // 12 O'clock X coordinate
+		startPointX1 = cx;
 
 		startPointY = cy - outerRadius;// 12 O'clock Y coordinate
 		startPointY1 = cy - outerRadius1;
 
 		markPointX = startPointX;// Initial locatino of the marker X coordinate
 		markPointX1 = startPointX1;
+		
 		markPointY = startPointY;// Initial locatino of the marker Y coordinate
 		markPointY1 = startPointY1;
 
@@ -332,10 +334,11 @@ public class CircularSeekBar extends View {
 		if(SHOW_SEEKBAR){
 			dx = getXFromAngle();
 			dy = getYFromAngle();
+			dx1 = getXFromAngle1();
+			dy1 = getYFromAngle1();
 			drawMarkerAtProgress(canvas);
 		}
 		super.onDraw(canvas);
-		//c = canvas;
 	}
 
 	/**
@@ -347,10 +350,13 @@ public class CircularSeekBar extends View {
 	public void drawMarkerAtProgress(Canvas canvas) {
 		if (IS_PRESSED) {
 			canvas.drawBitmap(progressMarkPressed, dx, dy, null);
+			canvas.drawBitmap(progressMarkPressed, dx1, dy1, null);
 			Log.i("draw parker  dx", dx + "");
 			Log.i("draw marker  dy" , dy + "");
 		} else {
 			canvas.drawBitmap(progressMark, dx, dy, null);
+			canvas.drawBitmap(progressMark, dx1, dy1, null);
+
 			//canvas.drawBitmap(progressMarkPressed, dx, dy, null);
 
 		}
@@ -370,6 +376,15 @@ public class CircularSeekBar extends View {
 		return x;
 	}
 
+
+	public float getXFromAngle1() {
+		int size1 = progressMark.getWidth();
+		int size2 = progressMarkPressed.getWidth();
+		int adjust = (size1 > size2) ? size1 : size2;
+		float x = markPointX1 - (adjust / 2);
+		return x;
+	}
+
 	/**
 	 * Gets the Y coordinate of the arc's end arm's point of intersection with
 	 * the circle
@@ -384,6 +399,14 @@ public class CircularSeekBar extends View {
 		return y;
 	}
 
+
+	public float getYFromAngle1() {
+		int size1 = progressMark.getHeight();
+		int size2 = progressMarkPressed.getHeight();
+		int adjust = (size1 > size2) ? size1 : size2;
+		float y = markPointY1 - (adjust / 2);
+		return y;
+	}
 	/**
 	 * Get the angle.
 	 * 
@@ -617,9 +640,9 @@ public class CircularSeekBar extends View {
 			IS_PRESSED = true;
 
 			markPointX = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
-			markPointX1 = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+			markPointX1 = (float) (cx + outerRadius1 * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
 			markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
-			markPointY1 = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+			markPointY1 = (float) (cy + outerRadius1 * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
 
 
 			float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
