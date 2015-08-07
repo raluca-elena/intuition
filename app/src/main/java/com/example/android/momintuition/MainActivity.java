@@ -113,43 +113,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//////////////////
-
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            final Button x =(Button) rootView.findViewById(R.id.buttonSignin);
-            final Button y =(Button) rootView.findViewById(R.id.buttonSignup);
-
-            View.OnClickListener l = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("BUTTON", "Signin" );
-                    FetchCoordinates fetchCordinates = new FetchCoordinates(getApplicationContext());
-                    fetchCordinates.execute();
-
-                    //Intent i;
-                    //i = new Intent(getAppContext(), SignIn.class);
-                    //startActivity(i);
-
-                }
-            };
-
-
-            View.OnClickListener l1 = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("BUTTON", "Signup" );
-                    Intent i;
-                    i = new Intent(getAppContext(), ActivityChooser.class);
-                    startActivity(i);
-
-                }
-            };
-            x.setOnClickListener(l);
-            y.setOnClickListener(l1);
-            return rootView;
-        }
 
     }
 
