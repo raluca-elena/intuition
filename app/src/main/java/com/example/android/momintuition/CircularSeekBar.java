@@ -129,7 +129,7 @@ public class CircularSeekBar extends View {
 
 
 
-	ArrayList<MultiCircularSeekbar> sb = new ArrayList<MultiCircularSeekbar>(3);
+	ArrayList<MultiCircularSeekbar> sb = new ArrayList<MultiCircularSeekbar>(5);
 
 
 	/**
@@ -199,7 +199,7 @@ public class CircularSeekBar extends View {
 
 
 		//instantioation of new circles
-		for (int i = 0; i < sb.size(); i++){
+		for (int i = 0; i < 5; i++){
 			sb.add(new MultiCircularSeekbar());
 		}
 
@@ -264,12 +264,9 @@ public class CircularSeekBar extends View {
 		//aici se seteaza raza cercului
 		outerRadius1 = (size / 2)/Math.max(divideh, dividew); // Radius of the outer circle
 		outerRadius = size / 2;
-		//aloha
 		for (int i = 0; i< sb.size(); i++){
 			MultiCircularSeekbar sbItem = sb.get(i);
-
-			//ALOHA
-			sbItem.outerRadius = (size / 2)/(i+5);
+			sbItem.outerRadius = (size / 2)/(i+1) - (i*i+3) + 5;
 			sbItem.innerRadius = sbItem.outerRadius - barWidth;
 			sbItem.left = cx - sbItem.outerRadius; // Calculate left bound of our rect
 			sbItem.right = cx + sbItem.outerRadius;
