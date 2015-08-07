@@ -34,7 +34,7 @@ public class FirstPageAnimation extends ActionBarActivity {
         addContentView(circularSeekbar, v.getLayoutParams());
         //circularSeekbar.invalidate();
         //circularSeekbar.setProgress(20);
-        circularSeekbar.setAngle(10);
+        //circularSeekbar.setAngle(10);
         int angle = 20;
 
 
@@ -46,7 +46,7 @@ public class FirstPageAnimation extends ActionBarActivity {
             }
         });
 
-        circularSeekbar.setProgress(circularSeekbar.getProgressPercent() + 10);
+        //circularSeekbar.setProgress(circularSeekbar.getProgressPercent() + 10);
 
 
 

@@ -1,7 +1,7 @@
 package com.example.android.momintuition; /**
  * @author Raghav Sood
  * @version 1
- * @date 26 January, 2013
+ * @date 26 January, 2013 -- first code base
  */
 
 import android.content.Context;
@@ -16,15 +16,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * The Class CircularSeekBar.
  */
 public class CircularSeekBar extends View {
 
-	/** The context */
 	private Context mContext;
-
-	/** The listener to listen for changes */
 	private OnSeekChangeListener mListener;
 
 	/** The color of the progress ring */
@@ -129,6 +128,10 @@ public class CircularSeekBar extends View {
 	private float markPointY1;
 
 
+
+	ArrayList<MultiCircularSeekbar> sb = new ArrayList<MultiCircularSeekbar>(3);
+
+
 	/**
 	 * The adjustment factor. This adds an adjustment of the specified size to
 	 * both sides of the progress bar, allowing touch events to be processed
@@ -194,6 +197,12 @@ public class CircularSeekBar extends View {
 		innerColor.setStyle(Paint.Style.STROKE);
 		circleRing.setStyle(Paint.Style.STROKE);
 
+
+		//instantioation of new circles
+		for (int i = 0; i < sb.size(); i++){
+			sb.add(new MultiCircularSeekbar());
+		}
+
 	}
 
 	/**
@@ -232,6 +241,7 @@ public class CircularSeekBar extends View {
 				R.drawable.scrubber_control_pressed_holo);
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -254,9 +264,28 @@ public class CircularSeekBar extends View {
 		//aici se seteaza raza cercului
 		outerRadius1 = (size / 2)/Math.max(divideh, dividew); // Radius of the outer circle
 		outerRadius = size / 2;
+		//aloha
+		for (int i = 0; i< sb.size(); i++){
+			MultiCircularSeekbar sbItem = sb.get(i);
+
+			//ALOHA
+			sbItem.outerRadius = (size / 2)/(i+5);
+			sbItem.innerRadius = sbItem.outerRadius - barWidth;
+			sbItem.left = cx - sbItem.outerRadius; // Calculate left bound of our rect
+			sbItem.right = cx + sbItem.outerRadius;
+			sbItem.top = cy - sbItem.outerRadius;
+			sbItem.bottom = cy + sbItem.outerRadius;
+			sbItem.startPointX = cx;
+			sbItem.startPointY = cy - sbItem.outerRadius;
+			sbItem.markPointX = sbItem.startPointX;
+			sbItem.markPointY = sbItem.startPointY;
+			sbItem.rect.set(sbItem.left, sbItem.top, sbItem.right, sbItem.bottom);
+
+		}
 
 		innerRadius = outerRadius - barWidth; // Radius of the inner circle
         innerRadius1 = outerRadius1 - barWidth;
+
 
 		left = cx - outerRadius; // Calculate left bound of our rect
 		left1 = cx - outerRadius1;
@@ -297,12 +326,23 @@ public class CircularSeekBar extends View {
 		canvas.drawColor(Color.TRANSPARENT);
 		canvas.drawArc(rect, startAngle, angle, false, innerColor);
 		canvas.drawArc(rect1, startAngle, angle, false, innerColor);
+		for (int i = 0; i < sb.size(); i++) {
+			MultiCircularSeekbar item = sb.get(i);
+			canvas.drawArc(item.rect, startAngle, angle, false, innerColor);
+		}
 
 		if(SHOW_SEEKBAR){
 			dx = getXFromAngle();
 			dy = getYFromAngle();
 			dx1 = getXFromAngle1();
 			dy1 = getYFromAngle1();
+
+			for (int i = 0; i < sb.size(); i++){
+				MultiCircularSeekbar item = sb.get(i);
+				item.dx = getXFromAngle(item);
+				item.dy = getYFromAngle(item);
+			}
+
 			drawMarkerAtProgress(canvas);
 		}
 		super.onDraw(canvas);
@@ -318,12 +358,26 @@ public class CircularSeekBar extends View {
 		if (IS_PRESSED) {
 			canvas.drawBitmap(progressMarkPressed, dx, dy, null);
 			canvas.drawBitmap(progressMarkPressed, dx1, dy1, null);
+			for (int i = 0; i < sb.size(); i++){
+				MultiCircularSeekbar item = sb.get(i);
+				Log.i("draw marker at progress", "DRAW" + i);
+				canvas.drawBitmap(progressMarkPressed, item.dx, item.dy, null);
+
+			}
+
+
 		} else {
 			canvas.drawBitmap(progressMark, dx, dy, null);
 			canvas.drawBitmap(progressMark, dx1, dy1, null);
+			for (int i = 0; i < sb.size(); i++){
+				MultiCircularSeekbar item = sb.get(i);
+				canvas.drawBitmap(progressMark, item.dx, item.dy, null);
+
+			}
 
 		}
 	}
+
 
 	/**
 	 * Gets the X coordinate of the arc's end arm's point of intersection with
@@ -348,6 +402,14 @@ public class CircularSeekBar extends View {
 		return x;
 	}
 
+	public float getXFromAngle(MultiCircularSeekbar i){
+		int size1 = progressMark.getWidth();
+		int size2 = progressMarkPressed.getWidth();
+		int adjust = (size1 > size2) ? size1 : size2;
+		float x = i.markPointX - (adjust / 2);
+		return x;
+	}
+
 	/**
 	 * Gets the Y coordinate of the arc's end arm's point of intersection with
 	 * the circle
@@ -368,6 +430,14 @@ public class CircularSeekBar extends View {
 		int size2 = progressMarkPressed.getHeight();
 		int adjust = (size1 > size2) ? size1 : size2;
 		float y = markPointY1 - (adjust / 2);
+		return y;
+	}
+
+	public float getYFromAngle(MultiCircularSeekbar i) {
+		int size1 = progressMark.getHeight();
+		int size2 = progressMarkPressed.getHeight();
+		int adjust = (size1 > size2) ? size1 : size2;
+		float y = i.markPointY - (adjust / 2);
 		return y;
 	}
 	/**
@@ -596,9 +666,17 @@ public class CircularSeekBar extends View {
 			IS_PRESSED = true;
 
 			markPointX = (float) (cx + outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
-			markPointX1 = (float) (cx + outerRadius1 * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+			markPointX1 = (float) (cx + outerRadius1 * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
 			markPointY = (float) (cy + outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
 			markPointY1 = (float) (cy + outerRadius1 * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI /2)));
+
+			for (int i = 0; i < sb.size(); i++){
+				MultiCircularSeekbar item = sb.get(i);
+				item.markPointX = (float) (cx + item.outerRadius * Math.cos(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
+				item.markPointY = (float) (cy + item.outerRadius * Math.sin(Math.atan2(x - cx, cy - y) - (Math.PI / 2)));
+			}
+
+
 
 
 			float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(x - cx, cy - y)) + 360.0)) % 360.0);
