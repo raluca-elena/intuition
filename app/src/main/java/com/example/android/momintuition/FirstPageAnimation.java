@@ -16,7 +16,6 @@ import android.widget.Button;
 
 public class FirstPageAnimation extends ActionBarActivity {
     CircularSeekBar circularSeekbar;
-    CircularSeekBar circularSeekbar2;
 
 
     @Override
@@ -32,11 +31,6 @@ public class FirstPageAnimation extends ActionBarActivity {
         circularSeekbar.setMaxProgress(100);
         circularSeekbar.setProgress(0);
         addContentView(circularSeekbar, v.getLayoutParams());
-        //circularSeekbar.invalidate();
-        //circularSeekbar.setProgress(20);
-        //circularSeekbar.setAngle(10);
-        int angle = 20;
-
 
         circularSeekbar.setSeekBarChangeListener(new CircularSeekBar.OnSeekChangeListener() {
 
