@@ -38,8 +38,8 @@ app.get("/", function(req, res) {
   );
   console.log("pid of child", child.pid);
   child.stdout.on("data", function (data) {
-      console.log("DATA ", data.toString());
-      res.write(data);
+  console.log("DATA ", data.toString());
+  res.write(data);
   });
   //res.json(x);
 })
