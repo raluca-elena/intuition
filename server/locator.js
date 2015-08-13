@@ -10,9 +10,9 @@ var args = process.argv;//get geolocation and params
 function constructUri(){
   hoast += "location=" + args[2] + "&" + args[3];
   hoast += "&key=" + fs.readFileSync('./key');
-  console.log("URI looks like", hoast);
-  console.log("arguments", args[2]);
-  console.log("arguments", args[3]);
+  //console.log("URI looks like", hoast);
+  //console.log("arguments", args[2]);
+  //console.log("arguments", args[3]);
   
 }
 
@@ -20,9 +20,9 @@ function constructUri(){
 constructUri();
 
 https.get(hoast, function(res) {
-  console.log("statusCode: ", res.statusCode);
-  console.log("headers: ", res.headers);
-  console.log("data: ", res.body);
+  //console.log("statusCode: ", res.statusCode);
+  //console.log("headers: ", res.headers);
+  //console.log("data: ", res.body);
 
   res.on('data', function(d) {
     console.log("Locations ", d.toString());

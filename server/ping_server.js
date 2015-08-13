@@ -31,14 +31,14 @@ app.use(function (req, res, next) {
 
 app.get("/", function(req, res) {
   var x =generate();
-  console.log("random value between 0 and 255", x);
+  //console.log("random value between 0 and 255", x);
   
   child = child_process.spawn("node", 
       ["locator", "-33.8670522,151.1957362", "radius=500&types=food&name=cruise"]
   );
-  console.log("pid of child", child.pid);
+  //console.log("pid of child", child.pid);
   child.stdout.on("data", function (data) {
-  console.log("DATA ", data.toString());
+  //console.log("DATA ", data.toString());
   res.write(data);
   });
   //res.json(x);
