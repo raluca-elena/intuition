@@ -1,4 +1,3 @@
-var request = require('superagent');
 var https = require('https');
 var hoast = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 var url;
