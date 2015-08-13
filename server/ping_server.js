@@ -3,6 +3,7 @@ var url = require("url");
 var express = require('express');
 var getRawBody = require('raw-body');
 var cors = require('cors');
+var child_process = require('child_process');
 
 function generate(){
   var x = Math.random()* (255 - 0) + 0;;
@@ -31,6 +32,14 @@ app.use(function (req, res, next) {
 app.get("/", function(req, res) {
   var x =generate();
   console.log("random value between 0 and 255", x);
+  
+  child = child_process.spawn("node", 
+      ["locator", "-33.8670522,151.1957362", "radius=500&types=food&name=cruise"]
+  );
+  console.log("pid of child", child.pid);
+  child.stdout.on("data", function (data) {
+      console.log("DATA ", data.toString());
+  });
   res.json(x);
 })
 
