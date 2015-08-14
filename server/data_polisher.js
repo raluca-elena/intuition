@@ -10,8 +10,12 @@ module.exports.getRes = function getRes(json) {
     console.log("place name ", data.results[i].name);
     console.log("place id   ", data.results[i].place_id);
     console.log("place type ", data.results[i].types);
-    if (data.results[i].photos !== undefined)
-      console.log("photo ref", data.results[i].photos[0].photo_reference);
+    if (data.results[i].photos !== undefined) {
+      console.log("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
+                   data.results[i].photos[0].photo_reference +
+                  "&key=" + fs.readFileSync('./key'));
+
+    }
     console.log();
   }
 }
