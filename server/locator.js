@@ -3,6 +3,7 @@ var hoast = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 var url;
 var fs = require('fs');
 var args = process.argv;//get geolocation and params
+var polisher = require('./data_polisher');
 
 //node locator.js  "-33.8670522,151.1957362" "radius=500&types=food&name=cruise"
 //-33.8670522,151.1957362
@@ -25,7 +26,9 @@ https.get(hoast, function(res) {
   //console.log("data: ", res.body);
 
   res.on('data', function(d) {
-    console.log("Locations ", d.toString());
+    //console.log("Locations ", d.toString());
+    polisher.getRes('./res.json');
+
   });
 
 }).on('error', function(e) {

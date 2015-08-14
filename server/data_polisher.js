@@ -1,16 +1,17 @@
 var fs = require('fs');
-var json = process.argv[2];
+//var json = process.argv[2];
 
-function getRes() {
+module.exports.getRes = function getRes(json) {
   //console.log(json);
   var x = fs.readFileSync(json, 'utf8');
   var data = JSON.parse(x);
-  console.log("length of data" , data.results.length);
+  console.log("nr of hits" , data.results.length);
   for (i = 0; i < data.results.length; i++) {
-    console.log("data is ", data.results[i].name);
-    console.log("place id ", data.results[i].place_id);
-    console.log("type", data.results[i].types);
+    console.log("place name ", data.results[i].name);
+    console.log("place id   ", data.results[i].place_id);
+    console.log("place type ", data.results[i].types);
+    console.log();
   }
 }
 
-getRes();
+//getRes();

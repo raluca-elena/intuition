@@ -34,7 +34,7 @@ app.get("/", function(req, res) {
   //console.log("random value between 0 and 255", x);
   
   child = child_process.spawn("node", 
-      ["locator", "-33.8670522,151.1957362", "radius=500&types=food&name=cruise"]
+      ["locator","37.4031455,-122.0753819", "rankby=distance&types=park|amusement_park|aquarium|book_store|library|museum|zoo&"]
   );
   //console.log("pid of child", child.pid);
   child.stdout.on("data", function (data) {
