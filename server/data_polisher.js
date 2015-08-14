@@ -10,6 +10,8 @@ module.exports.getRes = function getRes(json) {
     console.log("place name ", data.results[i].name);
     console.log("place id   ", data.results[i].place_id);
     console.log("place type ", data.results[i].types);
+    if (data.results[i].photos !== undefined)
+      console.log("photo ref", data.results[i].photos[0].photo_reference);
     console.log();
   }
 }
