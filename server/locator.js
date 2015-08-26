@@ -8,7 +8,7 @@ var polisher = require('./data_polisher');
 //node locator.js  "-33.8670522,151.1957362" "radius=500&types=food&name=cruise"
 //-33.8670522,151.1957362
 //radius=500&types=food&name=cruise
-function constructUri(){
+module.exports.constructUri = function constructUri(){
   hoast += "location=" + args[2] + "&" + args[3];
   hoast += "&key=" + fs.readFileSync('./key');
   //console.log("URI looks like", hoast);
