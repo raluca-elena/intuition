@@ -34,44 +34,23 @@ app.use(function (req, res, next) {
 
 app.get("/", function(req, res) {
   var x =generate();
-  //console.log("random value between 0 and 255", x);
   
-  //child = child_process.spawn("node",
   //    ["locator","37.4031455,-122.0753819", "rankby=distance&types=park|amusement_park|aquarium|book_store|library|museum|zoo&"]
-  //);
   var hoast = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
   hoast += "location=" + "-33.8670522,151.1957362" + "&" + "radius=500&types=food&name=cruise";
-  hoast += "&key=" + fs.readFileSync('./key');
-
-
-
-  https.get(hoast, function(ress) {
-    //console.log("statusCode: ", res.statusCode);
-    //console.log("headers: ", res.headers);
-    //console.log("data: ", res.body);
-
+  hoast += "&key=" + fs.readFileSync('/home/ubuntu/getPlaces/key');
+  var r = https.get(hoast, function(ress) {
     ress.on('data', function(d) {
-      console.log("break a leg!", d.toString());
-      //polisher.getRes('./res.json');
+      console.log("break a leg!");
       res.write(d);
-
     });
 
-  }).on('error', function(e) {
+    ress.on('end', function(d){ res.send();});
+  });
+  r.end();
+  r.on('error', function(e) {
     console.error(e);
   });
-
-
-
-
-  //console.log("pid of child", child.pid);
-  //child.stdout.on("data", function (data) {
-  //console.log("DATA ", data.toString());
-  //res.write(data);
-  //});
-
-
-  //res.json(x);
 })
 
 app.put("/", function(req, res, next) {
