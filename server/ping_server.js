@@ -7,7 +7,6 @@ var child_process = require('child_process');
 var https = require('https');
 var fs = require('fs');
 
-
 function generate(){
   var x = Math.random()* (255 - 0) + 0;;
   console.log("random value is", x);
@@ -54,12 +53,10 @@ app.get("/", function(req, res) {
 })
 
 app.put("/", function(req, res, next) {
-  console.log('i am in put and i want to write a tag : ', req.text);
   res.json("ALOHA ^_^");
 });
 
 app.post("/", function(req, res, next) {
-	console.log("got this post req with following req body", req.text);
-	res.json("ALOHA ~/~");
+  res.json("ALOHA ~/~");
 })
 app.listen(9000);
