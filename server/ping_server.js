@@ -44,7 +44,9 @@ app.get("/", function(req, res) {
       res.write(d);
     });
 
-    ress.on('end', function(d){ res.send();});
+    ress.on('end', function(d){ 
+	console.log("SENDING DATA");
+res.send();});
   });
   r.end();
   r.on('error', function(e) {
