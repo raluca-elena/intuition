@@ -33,10 +33,12 @@ app.use(function (req, res, next) {
 
 app.get("/", function(req, res) {
   var x =generate();
-  
+  console.log("request lat is ", req.param('lat'));
+  console.log("request long is", req.param('long'));  
   //    ["locator","37.4031455,-122.0753819", "rankby=distance&types=park|amusement_park|aquarium|book_store|library|museum|zoo&"]
   var hoast = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-  hoast += "location=" + "-33.8670522,151.1957362" + "&" + "radius=500&types=food&name=cruise";
+  hoast += "location=" + req.param('lat') + "," + req.param('long') + "&" + "rankby=distance&types=park|amusement_park|aquarium|book_store|library|museum|zoo";
+ 
   hoast += "&key=" + fs.readFileSync('/home/ubuntu/getPlaces/key');
   var r = https.get(hoast, function(ress) {
     ress.on('data', function(d) {
